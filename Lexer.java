@@ -18,20 +18,23 @@ import java.util.regex.Pattern;
 public class Lexer {
 	//https://gist.github.com/salavert/4636374
 	
-    public static int _WHITESPACE 	= 1;
-    public static int _ERROR 		= 2;
-    public static int _IDENTIFIER 	= 3;
-    public static int _NUMBER 		= 4;
-    public static int _OPERATOR 	= 5;
-    public static int _STRING	 	= 6;
-    public static int _KEYWORD		= 7;	
-    public static int _ENDOFSTMT	= 8;
-    public static int _EOF			= 9;
-    public static int _COMMENT		= 10;
-    public static int _LPAREN 		= 11;
-    public static int _RPAREN 		= 12;
-    public static int _LCURLY		= 13;
-    public static int _RCURLY		= 14;
+    public static int _WHITESPACE 	= 0;
+    public static int _COMMENT 		= 1;
+    public static int _LPAREN		= 2;
+    public static int _RPAREN		= 3;
+    public static int _LCURLY		= 4;
+    public static int _RCURLY		= 5;
+    public static int _LSQUARE		= 6;
+    public static int _RSQUARE		= 7;
+    public static int _KEYWORD		= 8;
+    public static int _STRING		= 9;
+    public static int _NUMBER		= 10;
+    public static int _OPERATOR		= 11;
+    public static int _IDENTIFIER	= 12;
+    public static int _SYMBOL		= 13;
+    public static int _ENDOFSTMT	= 14;
+    public static int _ERROR		= 15;
+    public static int _EOF			= 16;
     
     
     Matcher matcher;
@@ -39,20 +42,24 @@ public class Lexer {
     boolean skipError;
 
 	public static enum Type {
-		ERROR		(0),
-		WHITESPACE	(1),
-		IDENTIFIER	(2),
-		NUMBER		(3),
-		OPERATOR	(4),
-		STRING		(5),
-		KEYWORD		(6),
-		ENDOFSTMT	(7),
-		EOF			(8),
-		COMMENT		(9),
-		LPAREN		(10),
-		RPAREN		(11),
-		LCURLY		(12),
-		RCURLY		(13)
+
+		WHITESPACE	(0),
+		COMMENT		(1),
+		LPAREN		(2),
+		RPAREN		(3),
+		LCURLY		(4),
+		RCURLY		(5),
+		LSQUARE		(6),
+		RSQUARE		(7),
+		KEYWORD		(8),
+		STRING		(9),		
+		NUMBER		(10),
+		OPERATOR	(11),
+		IDENTIFIER	(12),
+		SYMBOL		(13),
+		ENDOFSTMT	(14),
+		ERROR		(15),				//2nd last
+		EOF			(16),				//always last!!!
 		;
 		
 		
@@ -81,40 +88,49 @@ public class Lexer {
         }
         
 		private Type getTypeName(int typenum) {
+			
 			switch(typenum) {
-			case 1:
+			case 0:
 				return Type.WHITESPACE;
-			case 2:
-				return Type.IDENTIFIER;
-			case 3:
-				return Type.NUMBER;
-			case 4:
-				return Type.OPERATOR;
-			case 5:
-				return Type.STRING;
-			case 6:
-				return Type.KEYWORD;
-			case 7:
-				return Type.ENDOFSTMT;
-			case 8:
-				return Type.EOF;
-			case 9:
+			case 1:
 				return Type.COMMENT;
-			case 10:
+			case 2:
 				return Type.LPAREN;
-			case 11:
+			case 3:
 				return Type.RPAREN;
-			case 12:
+			case 4:
 				return Type.LCURLY;
-			case 13:
+			case 5:
 				return Type.RCURLY;
+			case 6:
+				return Type.LSQUARE;
+			case 7:
+				return Type.RSQUARE;
+			case 8:
+				return Type.KEYWORD;
+			case 9:
+				return Type.STRING;
+			case 10:
+				return Type.NUMBER;
+			case 11:
+				return Type.OPERATOR;
+			case 12:
+				return Type.IDENTIFIER;
+			case 13:
+				return Type.SYMBOL;
+			case 14:
+				return Type.ENDOFSTMT;
+			case 15:
+				return Type.ERROR;
+			case 16:
+				return Type.EOF;
 			default:
 				return Type.ERROR;
 			}
 		}
    
-	}
-
+	} 
+	// WHITESPACE COMMENT LPAREN RPAREN LCURLY RCURLY LSQUARE RSQUARE KEYWORD STRING NUMBER OPERATOR IDENTIFIER ENDOFSTMT EOF ERROR
 	public static List<Token> lex(String input){
 		List<Token> tokens = new ArrayList<Token>();
 		
@@ -126,24 +142,26 @@ public class Lexer {
 	
     public Lexer(String text)
     {
-    	// WHITESPACE ERROR IDENTIFIER NUMBER OPERATOR STRING KEYWORD ENDOFSTMT EOF COMMENT LPAREN RPAREN LCURLY RCURLY OTHER
+
         String whitespace 	= "(\\s+)";
-        String error 		= "(.)+";							// must be last and able to capture one character
-        String id 			= "([a-zA-Z][0-9a-zA-Z]*)";
-        String num 			= "([0-9]+)";
-        String operator 	= "(\\+ | \\- | \\/ | \\*)";
-        String string 		= "([\"][a-zA-Z0-9])*[\"]"; 		// link 7
-        String keyword 		= "(if|then|else|endif|while|do|endwhile|skip|break|return)";
-        String endofstmt 	= "(;)";							// maybe ~
         String comment 		="([ugh][\\s][.]+)";
         String lparen 		= "(\\()";
         String rparen 		= "(\\))";
-        String lcurly		= "\\{";
-        String rcurly 		= "\\}";
-        String symbol		= "[^A-Za-z0-9]";
+        String lcurly		= "(\\{)";
+        String rcurly 		= "(\\})";
+        String lsquare	 	= "(\\[)";
+        String rsquare		= "(\\])";
+        String keyword 		= "(if|then|else|endif|while|do|endwhile|skip|break|return)";        
+        String string 		= "([\"][a-zA-Z0-9])*[\"]"; 		// link 7
+        String number 		= "([0-9]+)";
+        String operator 	= "(\\+ | \\- | \\/ | \\*)";
+        String id 			= "([a-zA-Z][0-9a-zA-Z]*)";
+        String symbol		= "[^A-Z^a-z^0-9]";					//????? g matching symbol? maybe matching last possible
+        String endofstmt 	= "(;)";							// maybe ~
+        String error 		= "(.)+";							// must be last and able to capture one character
 				
         //String regex = symbol;
-        String regex = String.join("|", whitespace, error, id, num, operator, string, keyword, endofstmt, comment, lparen, rparen, lcurly, rcurly, symbol);
+        String regex = String.join("|", whitespace, comment, lparen, rparen, lcurly, rcurly, lsquare, rsquare, keyword, string, number, operator, id, symbol, endofstmt, error);
 
         Pattern p = Pattern.compile(regex);
         this.text = text;
