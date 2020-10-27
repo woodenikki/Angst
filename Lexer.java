@@ -8,13 +8,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-//1. https://stackoverflow.com/questions/17848207/making-a-lexical-analyzer
-//2. http://giocc.com/writing-a-lexer-in-java-1-7-using-regex-named-capturing-groups.html
-//3. https://www.w3schools.com/java/java_regex.asp
-//4. https://gist.github.com/salavert/4636374
-//5. https://www.codexpedia.com/regex/regex-symbol-list-and-regex-examples/
-//6. https://stackoverflow.com/questions/61904326/is-there-a-way-to-identify-tokens-in-a-string-while-also-going-by-longest-substr
-//7. https://stackoverflow.com/questions/18627719/returning-java-regex-words-spaces-special-characters-double-quotes
+//http://giocc.com/writing-a-lexer-in-java-1-7-using-regex-named-capturing-groups.html
+//https://www.w3schools.com/java/java_regex.asp
+//https://www.codexpedia.com/regex/regex-symbol-list-and-regex-examples/
 
 public class Lexer {
 
@@ -90,8 +86,8 @@ public class Lexer {
 				tokens.add(new Token(Type.STRING, match.group(Type.STRING.name())));
 				continue;
 			}
-			if (match.group(Type.OPERATOR.name()) != null) {
-				tokens.add(new Token(Type.OPERATOR, match.group(Type.OPERATOR.name())));
+			if (match.group(Type.OP.name()) != null) {
+				tokens.add(new Token(Type.OP, match.group(Type.OP.name())));
 				continue;
 			}
 			if (match.group(Type.NUMBER.name()) != null) {

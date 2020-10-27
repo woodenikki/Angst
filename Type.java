@@ -9,10 +9,9 @@
 		LSQUARE		("(\\[)"),
 		RSQUARE		("(\\])"),
 		KEYWORD		(getKeywords()),
-		//KEYWORD		("(if|then|else|endif|while|do|endwhile|skip|break|return)"),
 		BINARY		(getBools()),
 		STRING		("\"(.*?)\""),	
-		OPERATOR	("(\\+ | \\- | \\/ | \\*)"),
+		OP			("(\\+ | \\- | \\/ | \\*)"),
 		NUMBER		("([0-9]+)"),
 		ENDSTMT		(getEndOfStatements()),		// maybe ~	[or whatever|i guess|;|but who cares]
 		ID			("([a-zA-Z][0-9a-zA-Z]*)"),
@@ -36,7 +35,7 @@
 		public static String getBools() {
 			//"(slaps|rad|sick)|(eh|meh|bleh)"
 			String result = String.join("|", 
-					"fire",		//true
+					"cool",		//true
 					"rad",		//true
 					"sick",		//true
 					"eh",		//false

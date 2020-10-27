@@ -1,13 +1,13 @@
 hear me out..
 do what you want with number x should be 5 i guess
 maybe x should be jack all{
-    buncha 420;
+    buncha 420 + 8;
 }
 or not. throws shade;
 
 number y should be anxious
 or whatever
 
-bool myBool should be sick
+bool myBool should be cool
 
 thats deep.
