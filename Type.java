@@ -93,5 +93,20 @@
 			
 			return result;
 		}
+		
+		/*
+		public static String getOperators() {
+			String result = String.join("|", 
+					
+					//new OP("==").getPattern(),
+					//new OP("NOT!").getPattern()
+					
+					
+					
+					);
+					
+					
+		}
+		*/
 				
 	}
