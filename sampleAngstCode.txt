@@ -1,13 +1,24 @@
 hear me out..
+
+ugh this is a comment
+ugh "lets make a string"
+
 do what you want with number x should be 5 i guess
 maybe x should be jack all{
     buncha 420 + 8;
 }
 or not. throws shade;
 
+number z should be 7 i guess
+
 number y should be anxious
+"feeling angsty"
 or whatever
 
 bool myBool should be cool
 
 thats deep.
+
+could be 7
+should be 8
+x = 7

@@ -11,5 +11,6 @@
 /Lexer$Keyword.class
 /Keyword.class
 /Parser.class
-/Parser$Tokeninfo.class
-/OP.class
+/TokenType.class
+/OpType.class
+/bin/

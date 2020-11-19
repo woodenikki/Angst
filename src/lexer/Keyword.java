@@ -1,11 +1,11 @@
-
+package lexer;
 public class Keyword {
 	
 	public String descript;
 	public String key;
 
 	
-	Keyword(String k) {
+	public Keyword(String k) {
 		key = k;
 		setDescript(k);
 	}
@@ -42,10 +42,10 @@ public class Keyword {
 			case "anxious":
 				descript = "Random number";
 				break;
-			case "dont look at":
+			case "my":
 				descript = "'private'";
 				break;
-			case "do what you want with":
+			case "anybodies":
 				descript = "'public'";
 				break;
 			case "maybe":

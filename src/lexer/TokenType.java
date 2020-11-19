@@ -1,4 +1,5 @@
-	public enum Type {
+package lexer;
+public enum TokenType {
 
 		WSPACE		("(\\s+)"),
 		COMMENT		("\\b(ugh)\\b(.| \n)*"),					
@@ -10,6 +11,7 @@
 		RSQUARE		("(\\])"),
 		KEYWORD		(getKeywords()),
 		BINARY		(getBools()),
+		ASSIGN		(getAssignments()),
 		STRING		("\"(.*?)\""),	
 		OP			("(\\+ | \\- | \\/ | \\*)"),
 		NUMBER		("([0-9]+)"),
@@ -24,12 +26,22 @@
 		public final String pattern;
 
 		
-		private Type(String pattern) {
+		private TokenType(String pattern) {
 			this.pattern = pattern;
 		}
 		
 		public String getPattern() {
 			return this.pattern;
+		}
+		
+		public static String getAssignments() {
+			String result = String.join("|", 
+					"could be",	
+					"should be",	
+					"="
+					);
+					
+			return result;
 		}
 		
 		public static String getBools() {
@@ -73,14 +85,13 @@
 					new Keyword("mumble").getKey(),
 					new Keyword("NO!").getKey(),
 					new Keyword("anxious").getKey(),
-					new Keyword("dont look at").getKey(),
-					new Keyword("do what you want with").getKey(),
+					new Keyword("my").getKey(),
+					new Keyword("anybodies").getKey(),
 					new Keyword("maybe").getKey(),
 					new Keyword("or not.").getKey(),
 					new Keyword("throws shade").getKey(),
 					new Keyword("string").getKey(),
 					new Keyword("number").getKey(),
-					new Keyword("should be").getKey(),
 					new Keyword("jack all").getKey(),
 					new Keyword("bool").getKey(),
 					new Keyword("hear me out..").getKey(),
