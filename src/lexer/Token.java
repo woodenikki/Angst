@@ -1,4 +1,5 @@
 package lexer;
+
 public class Token {
 
 		public int tokenNumber;
@@ -10,4 +11,11 @@ public class Token {
 			this.type = type;
 		}
 
+		public TokenType getType() {
+			return type;
+		}
+		
+		public String getData() {
+			return data;
+		}
 	}
