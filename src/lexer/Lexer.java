@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 //http://giocc.com/writing-a-lexer-in-java-1-7-using-regex-named-capturing-groups.html
 //https://www.w3schools.com/java/java_regex.asp
 //https://www.codexpedia.com/regex/regex-symbol-list-and-regex-examples/
+//https://rubular.com/r/Db8fv6RQht
 
 public class Lexer {
 
@@ -106,6 +107,10 @@ public class Lexer {
 				tokens.add(new Token(TokenType.RSQUARE, match.group(TokenType.RSQUARE.name())));
 				continue;
 			}
+			if (match.group(TokenType.OP.name()) != null) {
+				tokens.add(new Token(TokenType.OP, match.group(TokenType.OP.name())));
+				continue;
+			}
 			if (match.group(TokenType.KEYWORD.name()) != null) {
 				tokens.add(new Token(TokenType.KEYWORD, match.group(TokenType.KEYWORD.name())));
 				continue;
@@ -120,10 +125,6 @@ public class Lexer {
 			}
 			if (match.group(TokenType.STRING.name()) != null) {
 				tokens.add(new Token(TokenType.STRING, match.group(TokenType.STRING.name())));
-				continue;
-			}
-			if (match.group(TokenType.OP.name()) != null) {
-				tokens.add(new Token(TokenType.OP, match.group(TokenType.OP.name())));
 				continue;
 			}
 			if (match.group(TokenType.NUMBER.name()) != null) {

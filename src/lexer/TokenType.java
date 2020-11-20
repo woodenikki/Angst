@@ -9,17 +9,17 @@ public enum TokenType {
 		RCURLY		("(\\})"),
 		LSQUARE		("(\\[)"),
 		RSQUARE		("(\\])"),
+		OP			(getOps()),						//"(\\+ | \\- | \\/ | \\*)"
 		KEYWORD		(getKeywords()),
 		BINARY		(getBools()),
 		ASSIGN		(getAssignments()),
 		STRING		("\"(.*?)\""),	
-		OP			("(\\+ | \\- | \\/ | \\*)"),
 		NUMBER		("([0-9]+)"),
-		ENDSTMT		(getEndOfStatements()),		// maybe ~	[or whatever|i guess|;|but who cares]
+		ENDSTMT		(getEndOfStatements()),		
 		ID			("([a-zA-Z][0-9a-zA-Z]*)"),
 		SYMBOL		("[^A-Z^a-z^0-9]"),
-		ERROR		("(.)+"),										//2nd last
-		EOF			(""),											//always last!!!
+		ERROR		("(.)+"),						//2nd last
+		EOF			(""),							//always last!!!
 		;
 		
 
@@ -71,6 +71,30 @@ public enum TokenType {
 			
 			
 			return result;
+		}
+		
+		public static String getOps() {
+			String result = String.join("|", 
+					OpType.INCR.getPattern(),
+					OpType.DECR.getPattern(),
+					OpType.ADD.getPattern(),
+					OpType.SUB.getPattern(),
+					OpType.MULT.getPattern(),
+					OpType.DIV.getPattern(),
+					OpType.MOD.getPattern(),
+					OpType.GTEQ.getPattern(),
+					OpType.LTEQ.getPattern(),
+					OpType.EQ.getPattern(),
+					OpType.NEQ.getPattern(),
+					OpType.GT.getPattern(),
+					OpType.LT.getPattern(),
+					OpType.AND.getPattern(),
+					OpType.OR.getPattern(),
+					OpType.NOT.getPattern()
+										
+					);
+			
+			return result;					
 		}
 		
 		public static String getKeywords() {

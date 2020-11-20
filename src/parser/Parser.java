@@ -22,6 +22,30 @@ public class Parser {
 		}
 	}
 	
+	public Node factor() {
+		Token token = currentToken;
+		
+		if(currentToken.getType() == TokenType.NUMBER) {		// number c:
+			this.eat(TokenType.NUMBER);
+			return new parser.tree.Num(token);
+		}
+		else if(currentToken.getType() == TokenType.LPAREN) { 	// ( expression )
+			this.eat(TokenType.LPAREN);
+			//Node result = expr();
+			this.eat(TokenType.RPAREN);
+			//return result;
+		}
+		return null;
+	}
+	
+	public Node term() {
+		// a term is the result of a */ // operation of 1+ factors
+		
+		Token op = currentToken;
+		
+		//if(op.getType() == TokenType.OP)
+		return null;
+	}
 
 	
 	public Node variable() {

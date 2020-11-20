@@ -1,8 +1,7 @@
 package main;
 import lexer.*;
 import parser.*;
-import interpreter.*;
-
+//import interpreter
 
 public class Main {
 	
