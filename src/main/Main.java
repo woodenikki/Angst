@@ -13,12 +13,18 @@ public class Main {
 	
 	public static void main(String[] args) {
 		Lexer lexer = new Lexer(sourceCode);
-		printLexer(lexer);
+		System.out.println();
+		for(int i = 0; i < lexer.getTokens().size(); i++) {
+			System.out.print(lexer.getTokens().get(i).getData()+" ");
+		}
+		System.out.println();
+		//printLexer(lexer);
 		
 		Parser parser = new Parser(lexer);
-		Interpreter interpreter = new Interpreter(parser);
-		interpreter.interpret();
-		System.out.println(interpreter.variables);
+		parser.parse();
+		//Interpreter interpreter = new Interpreter(parser);
+		//interpreter.interpret();
+		//System.out.println(interpreter.variables);
 	}
 	
 	public static void printLexer(Lexer myLex) {

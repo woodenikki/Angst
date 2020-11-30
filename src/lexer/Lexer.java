@@ -49,6 +49,7 @@ public class Lexer {
 		}
 		
 		tokens = lex(code);
+		tokens.add(new Token(TokenType.WSPACE, ""));
 	}
 	
 	public List<Token> getTokens(){

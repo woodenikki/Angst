@@ -15,7 +15,6 @@ public class Parser {
 	
 	private Lexer lexer;
 	private Token currentToken;
-	private ArrayList<ArrayList<Token>> statementList; 		//for me to debug.
 	private boolean foundEOP;
 	
 	
@@ -23,12 +22,14 @@ public class Parser {
 		foundEOP = false;
 		this.lexer = lexer;
 		currentToken = lexer.getNextToken();
-		statementList = new ArrayList<ArrayList<Token>>();
 	}
 	
 	public void eat(TokenType type) {
 		if(type == currentToken.getType()) {
 			System.out.println("\t\t ate \"" + currentToken.getData() + "\""); 
+			if(currentToken.getData().equals(Keyword.ENDPROGRAM.getKey())) {
+				return;
+			}
 			currentToken = lexer.getNextToken();
 			
 			if(currentToken == null) {
@@ -304,7 +305,7 @@ public class Parser {
 	
 	public Node statement() {
 		Node stmt = null;
-		
+
 		if(currentToken.getType() == TokenType.KEYWORD) {
 			
 			if(currentToken.getData().equals(Keyword.PRINT.getKey())) { //mumble(x)
@@ -349,10 +350,12 @@ public class Parser {
 			Node node = this.statement();
 			this.eat(TokenType.ENDSTMT);
 			rootNode.getChildren().add(node);
+			
 			if(currentToken.getType() == TokenType.KEYWORD && currentToken.getData().equals(Keyword.ENDPROGRAM.getKey())) {
 				this.eat(TokenType.KEYWORD);
 				foundEOP = true;
 			}
+
 		}
 		return rootNode;
 	}
