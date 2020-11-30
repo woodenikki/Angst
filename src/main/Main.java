@@ -13,11 +13,8 @@ public class Main {
 	
 	public static void main(String[] args) {
 		Lexer lexer = new Lexer(sourceCode);
-		System.out.println();
-		for(int i = 0; i < lexer.getTokens().size(); i++) {
-			System.out.print(lexer.getTokens().get(i).getData()+" ");
-		}
-		System.out.println();
+		System.out.println("_______________________________");
+		//printTokens(lexer);
 		//printLexer(lexer);
 		
 		Parser parser = new Parser(lexer);
@@ -42,6 +39,14 @@ public class Main {
 			}
 
 		}
+	}
+	
+	public static void printTokens(Lexer lexer) {
+		System.out.println();
+		for(int i = 0; i < lexer.getTokens().size(); i++) {
+			System.out.print(lexer.getTokens().get(i).getData()+" ");
+		}
+		System.out.println();
 	}
 }
 	

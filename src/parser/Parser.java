@@ -11,25 +11,31 @@ import lexer.TokenType;
 import parser.tree.*;
 //https://github.com/rgwohlbold/interpreter-ice
 
+
+/***********UNIMPLEMENTED IDEAS***********/
+//-Arrays
+//-Return statement -> "give"
 public class Parser {
 	
 	private Lexer lexer;
 	private Token currentToken;
 	private boolean foundEOP;
-	
+	ArrayList<Token> currentStmt;
 	
 	public Parser(Lexer lexer) {
 		foundEOP = false;
 		this.lexer = lexer;
 		currentToken = lexer.getNextToken();
+		currentStmt = new ArrayList<Token>();
 	}
 	
 	public void eat(TokenType type) {
 		if(type == currentToken.getType()) {
-			System.out.println("\t\t ate \"" + currentToken.getData() + "\""); 
+			//System.out.println("\t\t ate \"" + currentToken.getData() + "\""); 
 			if(currentToken.getData().equals(Keyword.ENDPROGRAM.getKey())) {
 				return;
 			}
+			currentStmt.add(currentToken);
 			currentToken = lexer.getNextToken();
 			
 			if(currentToken == null) {
@@ -46,9 +52,8 @@ public class Parser {
 
 	
 	public Node term() {										//NUMBER, STRINGY, BOOL
-		System.out.println("p: term");
+
 		Token token = currentToken;
-		System.out.println(token.getType());
 		
 		if(currentToken.getType() == TokenType.NUMBER) {		// number c:
 			this.eat(TokenType.NUMBER);
@@ -70,17 +75,27 @@ public class Parser {
 			Node result = expression();
 			this.eat(TokenType.RPAREN);
 			return result;
+		}else if(currentToken.getType() == TokenType.KEYWORD) {
+			if(currentToken.getData().equals(Keyword.RANDOM.getKey())) {
+				this.eat(TokenType.KEYWORD);
+				this.eat(TokenType.LPAREN);
+				int r = Integer.parseInt(currentToken.getData());
+				this.eat(TokenType.NUMBER);
+				this.eat(TokenType.RPAREN);
+				int rand = (int) (r * Math.random());
+				
+				return new Num(rand);
+			}
 		}
-		System.out.println("heree?");
 		
-		System.err.println("bad things man");
+		System.err.println("bad things man. You've found yourself an infinite loop.");
 		System.exit(-1);
 
 		return new NoOp();
 	}
 	
 	public Var variable() {
-		System.out.println("p: variable");
+
 		Var node = new Var(currentToken);
 		this.eat(TokenType.ID);
 		
@@ -88,12 +103,11 @@ public class Parser {
 	}
 	
 	public Node post() {
-		System.out.println("p: post");
+
 		Node result = term();
-		System.out.println(currentToken.getData());
+
 		while(currentToken.getData().equals(OpType.INCR.getOperation()) || currentToken.getData().equals(OpType.DECR.getOperation())) {
 			Token op = currentToken;
-			System.out.println("made it here");
 																				//Precedence:
 			if(op.getData().equals(OpType.INCR.getOperation()) || 		//x++
 					op.getData().equals(OpType.DECR.getOperation())){		//x--
@@ -107,7 +121,7 @@ public class Parser {
 	}
 	
 	public Node multDivMod() {
-		System.out.println("p: multDivMod");
+
 		Node result = post();
 		
 		while(currentToken.getType() == TokenType.OP && (currentToken.getData().equals(OpType.MULT.getOperation()) || // MULT, DIV, OR MOD
@@ -121,7 +135,6 @@ public class Parser {
 				this.eat(TokenType.OP);
 				
 			}
-			System.out.println("Nikki");
 			result = new ArithOp(result, op, term());
 		}
 		
@@ -164,26 +177,26 @@ public class Parser {
 	public Node printStmt() {	//mumble("hello")
 		this.eat(TokenType.KEYWORD);
 		this.eat(TokenType.LPAREN);
-		System.out.println(currentToken.getData());
+
+		if(currentToken.getType().equals(TokenType.STRINGY)) {
+			this.eat(TokenType.STRINGY);
+		}
+		else if(currentToken.getType().equals(TokenType.NUMBER)) {
+			this.eat(TokenType.NUMBER);
+		}
+		else if(currentToken.getType().equals(TokenType.BOOL)) {
+			this.eat(TokenType.BOOL);
+		}
+		
 		this.eat(TokenType.RPAREN);
+		
 		return new NoOp();
 	}
 	
-	public Node randomStmt() {		//random(10) .. returns random number from 0 to 9 (inclusive)
-		System.out.println("p: random");
-		this.eat(TokenType.KEYWORD);
-		this.eat(TokenType.LPAREN);
-		int r = Integer.parseInt(currentToken.getData());
-		this.eat(TokenType.NUMBER);
-		this.eat(TokenType.RPAREN);
-		int rand = (int) (r * Math.random());
-		
-		return new Num(rand);
-	}
 	
 	@SuppressWarnings("finally")
 	public Node throwExceptionStmt() { //throws shade("ya done goofed")
-		System.out.println("p: throwExceptionStmt");
+
 		this.eat(TokenType.KEYWORD); 
 		this.eat(TokenType.LPAREN);
 		String exception = currentToken.getData();
@@ -203,9 +216,9 @@ public class Parser {
 
 	/*********POSSIBLE STATEMENTS*********/
 	public Node expression() { //any Arithmetic statement... numbers only
-		System.out.println("p: expression");
+
 		Node result = multDivMod();
-		System.out.println(currentToken.getData() +" "+currentToken.getType());
+		//System.out.println(currentToken.getData() +" "+currentToken.getType());
 
 		while (currentToken.getType() == TokenType.OP && 
 				(currentToken.getData().equals(OpType.PLUS.getOperation()) || currentToken.getData().equals(OpType.MINUS.getOperation()))) {
@@ -217,14 +230,13 @@ public class Parser {
 				this.eat(TokenType.OP);
 			}
 			result = new ArithOp(result, op, term());		//result -> result (+ term)
-			System.out.println("fuck");
 		}
-		System.out.println("p: end expression");
+
 		return result;		
 	}
 	
 	public Node declarationStmt() { //my stringy x should be "hello"
-		System.out.println("p: declare");
+
 		boolean scopeIsPrivate = false;
 		Datatype datatype = null;
 		
@@ -238,8 +250,7 @@ public class Parser {
 			System.err.println("Expecting scope: my or anybodies");
 			System.exit(-1);
 		}
-		
-		if(currentToken.equals(TokenType.KEYWORD)) {
+		if(currentToken.getType().equals(TokenType.KEYWORD)) {
 			if(currentToken.getData().equals(Keyword.NUMBER.getKey())){
 				datatype = Datatype.NUMBER;
 				this.eat(TokenType.KEYWORD);
@@ -256,7 +267,7 @@ public class Parser {
 				System.exit(-1);
 			}
 		}
-			
+		
 		Var var = this.variable();	//x
 		Token token = currentToken;	//=
 		this.eat(TokenType.ASSIGN); 
@@ -271,7 +282,7 @@ public class Parser {
 	}
 	
 	public Node assignmentStmt() { // y is 7
-		System.out.println("p: assign");
+
 		Var left = this.variable();
 		Token token = currentToken;
 		
@@ -279,7 +290,7 @@ public class Parser {
 			this.eat(TokenType.ASSIGN);
 		}
 		else {
-			System.out.println("post during assignment");
+			//System.out.println("\t\tpost during assignment");
 			this.eat(TokenType.OP);
 			return new Assign(left, token, new ArithOp(left, token));
 		}
@@ -289,42 +300,51 @@ public class Parser {
 		
 		//left.setVarType(right.getType());
 		
-		System.out.println("end assign");
 		return new Assign(left, token, right);
 	}
 	
 	public Node ifStmt() {
-		System.out.println("p: ifStmt");
 		return null;
 	}
 	
 	public Node dowhileStmt(){
-		System.out.println("p: dowhileStmt");
 		return null;
+	}
+	
+	public void printCurrentStatement() {
+
+		for(int i = 0; i < currentStmt.size(); i++) {
+			System.out.print(currentStmt.get(i).getData()+" ");
+		}
+		currentStmt.clear();
+		System.out.println();
 	}
 	
 	public Node statement() {
 		Node stmt = null;
+		
 
 		if(currentToken.getType() == TokenType.KEYWORD) {
 			
 			if(currentToken.getData().equals(Keyword.PRINT.getKey())) { //mumble(x)
 				stmt = this.printStmt();
-			}
-			else if(currentToken.getData().equals(Keyword.RANDOM.getKey())) { //random(10) .. returns random number 0 to 9
-				stmt = this.randomStmt();
+				System.out.print("Print Stmt: \t");
 			}
 			else if(currentToken.getData().equals(Keyword.THROWEXCEPTION.getKey())) {
 				stmt = this.throwExceptionStmt();
+				System.out.print("Exception: \t");
 			}
 			else if(currentToken.getData().equals(Keyword.PUBLIC.getKey()) || currentToken.getData().equals(Keyword.PRIVATE.getKey())) {
 				stmt = this.declarationStmt();
+				System.out.print("Declaration: \t");
 			}
 			else if(currentToken.getData().equals(Keyword.IF.getKey())) {
 				stmt = this.ifStmt();
+				System.out.print("If statement: \t");
 			}
 			else if(currentToken.getData().equals(Keyword.DOWHILE.getKey())) {
 				stmt = this.dowhileStmt();
+				System.out.print("While Loop: \t");
 			}
 
 			/*
@@ -333,12 +353,19 @@ public class Parser {
 			}
 			 */
 		}
+
 		else if(currentToken.getType() == TokenType.ID) {
-			stmt = this.assignmentStmt();
+			try {
+				stmt = this.assignmentStmt();
+				System.out.print("Assignment: \t");
+			}catch(Exception e) {
+				System.out.println("exception");
+				stmt = expression();
+				System.out.print("Expression: \t");
+			}
+
 		}
-		else {
-			stmt = expression();
-		}
+
 
 
 		return stmt;
@@ -349,12 +376,16 @@ public class Parser {
 		while (tokenTypeIn(TokenType.KEYWORD, TokenType.ID, TokenType.BOOL, TokenType.NUMBER, TokenType.STRINGY, TokenType.LPAREN) && !foundEOP) { //not sure what else..
 			Node node = this.statement();
 			this.eat(TokenType.ENDSTMT);
+			printCurrentStatement();
 			rootNode.getChildren().add(node);
 			
 			if(currentToken.getType() == TokenType.KEYWORD && currentToken.getData().equals(Keyword.ENDPROGRAM.getKey())) {
 				this.eat(TokenType.KEYWORD);
 				foundEOP = true;
+				System.out.print("End Program: \tthats deep.");
+				System.out.println();
 			}
+
 
 		}
 		return rootNode;
@@ -366,7 +397,9 @@ public class Parser {
 			System.exit(-1);
 		}
 		this.eat(TokenType.KEYWORD);
-		System.out.println("p: I'm listening.");
+		System.out.print("Begin Program: \t");
+		printCurrentStatement();
+		//System.out.println("p: I'm listening.");
 		Node result = statementList();
 		
 		return result;

@@ -1,9 +1,10 @@
  hear me out..
- a = 5;
- b = a + 3;
- c = a;
- c = c + 1;
+ my stringy y should be "hello";
+ anybodies number num should be 7 i guess
+ a = anxious(5);
+ mumble ("hey") or whatever
+ c++;
  c = c - 2;
- d = a * c;
- a++;
+ d = a % c;
+ a--;
 thats deep.
