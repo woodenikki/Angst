@@ -8,6 +8,7 @@ public class Assign extends Node {
 	private Token op;
 	
 	public Assign(Node left, Token op, Node right) {
+		//this.type = Datatype.VOID;
 		this.left = left;
 		this.right = right;
 		this.op = op;

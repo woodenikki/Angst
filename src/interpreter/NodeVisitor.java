@@ -3,6 +3,9 @@ package interpreter;
 import java.lang.reflect.Method;
 import java.lang.reflect.InvocationTargetException;
 
+import parser.tree.*;
+import interpreter.*;
+
 public class NodeVisitor {
 
     public Object visit(Node node){
@@ -26,4 +29,6 @@ public class NodeVisitor {
 			System.exit(-1);
 			//throw new InvalidIdentifierException(e.getCause().getMessage());
 		}
+		return visitor;
+    }
 }

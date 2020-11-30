@@ -2,16 +2,17 @@ package lexer;
 //https://data-flair.training/blogs/operators-in-c-and-cpp/
 public enum OpType {
 	/***Arithmetic***/
-	ADD		("\\+"),
-	SUB		("\\-"),
+	PLUS	("\\+"),
+	MINUS	("\\-"),
 	MULT	("\\*"),
 	DIV		("\\/"),
 	MOD		("%"),
 	INCR	("\\+\\+"),
 	DECR	("\\-\\-"),
+	//TODO: exponent?
 	/***Relational***/
 	EQ		("[=][=]"),
-	NEQ		("NOT![=][=]"),
+	NEQ		("NOT![=]"),
 	GTEQ	(">="),
 	LTEQ	("<="),
 	GT		(">"),
@@ -25,13 +26,19 @@ public enum OpType {
 	
 
 	public final String pattern;
+	public final String operation;
 
 	
 	private OpType(String pattern) {
 		this.pattern = pattern;
+		operation = pattern.replaceAll("\\\\", "");
 	}
 	
-	String getPattern() {
+	public String getPattern() {
 		return pattern;
+	}
+	
+	public String getOperation() {
+		return operation;
 	}
 }

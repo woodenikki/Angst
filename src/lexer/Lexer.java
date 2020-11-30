@@ -60,8 +60,12 @@ public class Lexer {
 	}
 	
 	public Token getNextToken() {
+		Token t =  tokens.get(pos);
 		pos++;
-		return tokens.get(pos);
+		if(pos >= tokens.size()) {
+			return null;
+		}
+		return t;
 	}
 
 	// WHITESPACE COMMENT LPAREN RPAREN LCURLY RCURLY LSQUARE RSQUARE KEYWORD STRING
@@ -91,14 +95,6 @@ public class Lexer {
 				tokens.add(new Token(TokenType.RPAREN, match.group(TokenType.RPAREN.name())));
 				continue;
 			}
-			if (match.group(TokenType.LCURLY.name()) != null) {
-				tokens.add(new Token(TokenType.LCURLY, match.group(TokenType.LCURLY.name())));
-				continue;
-			}
-			if (match.group(TokenType.RCURLY.name()) != null) {
-				tokens.add(new Token(TokenType.RCURLY, match.group(TokenType.RCURLY.name())));
-				continue;
-			}
 			if (match.group(TokenType.LSQUARE.name()) != null) {
 				tokens.add(new Token(TokenType.LSQUARE, match.group(TokenType.LSQUARE.name())));
 				continue;
@@ -115,16 +111,16 @@ public class Lexer {
 				tokens.add(new Token(TokenType.KEYWORD, match.group(TokenType.KEYWORD.name())));
 				continue;
 			}
-			if (match.group(TokenType.BINARY.name()) != null) {
-				tokens.add(new Token(TokenType.BINARY, match.group(TokenType.BINARY.name())));
+			if (match.group(TokenType.BOOL.name()) != null) {
+				tokens.add(new Token(TokenType.BOOL, match.group(TokenType.BOOL.name())));
 				continue;
 			}
 			if (match.group(TokenType.ASSIGN.name()) != null) {
 				tokens.add(new Token(TokenType.ASSIGN, match.group(TokenType.ASSIGN.name())));
 				continue;
 			}
-			if (match.group(TokenType.STRING.name()) != null) {
-				tokens.add(new Token(TokenType.STRING, match.group(TokenType.STRING.name())));
+			if (match.group(TokenType.STRINGY.name()) != null) {
+				tokens.add(new Token(TokenType.STRINGY, match.group(TokenType.STRINGY.name())));
 				continue;
 			}
 			if (match.group(TokenType.NUMBER.name()) != null) {
@@ -137,10 +133,6 @@ public class Lexer {
 			}
 			if (match.group(TokenType.ID.name()) != null) {
 				tokens.add(new Token(TokenType.ID, match.group(TokenType.ID.name())));
-				continue;
-			}
-			if (match.group(TokenType.SYMBOL.name()) != null) {
-				tokens.add(new Token(TokenType.SYMBOL, match.group(TokenType.SYMBOL.name())));
 				continue;
 			}
 			if (match.group(TokenType.ERROR.name()) != null) {

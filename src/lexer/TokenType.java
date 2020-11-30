@@ -5,19 +5,16 @@ public enum TokenType {
 		COMMENT		("\\b(ugh)\\b(.| \n)*"),					
 		LPAREN		("(\\()"),
 		RPAREN		("(\\))"),
-		LCURLY		("(\\{)"),
-		RCURLY		("(\\})"),
 		LSQUARE		("(\\[)"),
 		RSQUARE		("(\\])"),
 		OP			(getOps()),						//"(\\+ | \\- | \\/ | \\*)"
 		KEYWORD		(getKeywords()),
-		BINARY		(getBools()),
+		BOOL		(getBools()),
 		ASSIGN		(getAssignments()),
-		STRING		("\"(.*?)\""),	
+		STRINGY		("\"(.*?)\""),	
 		NUMBER		("([0-9]+)"),
 		ENDSTMT		(getEndOfStatements()),		
 		ID			("([a-zA-Z][0-9a-zA-Z]*)"),
-		SYMBOL		("[^A-Z^a-z^0-9]"),
 		ERROR		("(.)+"),						//2nd last
 		EOF			(""),							//always last!!!
 		;
@@ -38,7 +35,8 @@ public enum TokenType {
 			String result = String.join("|", 
 					"could be",	
 					"should be",	
-					"="
+					"=",
+					"is"
 					);
 					
 			return result;
@@ -77,8 +75,8 @@ public enum TokenType {
 			String result = String.join("|", 
 					OpType.INCR.getPattern(),
 					OpType.DECR.getPattern(),
-					OpType.ADD.getPattern(),
-					OpType.SUB.getPattern(),
+					OpType.PLUS.getPattern(),
+					OpType.MINUS.getPattern(),
 					OpType.MULT.getPattern(),
 					OpType.DIV.getPattern(),
 					OpType.MOD.getPattern(),
@@ -99,30 +97,28 @@ public enum TokenType {
 		
 		public static String getKeywords() {
 			String result = String.join("|",
-					
-					new Keyword("buncha").getKey(),
-					new Keyword("as if").getKey(),
-					new Keyword("unless..").getKey(),
-					new Keyword("but whatever").getKey(),
-					new Keyword("do i hafta").getKey(),
-					new Keyword("yech, still").getKey(),
-					new Keyword("mumble").getKey(),
-					new Keyword("NO!").getKey(),
-					new Keyword("anxious").getKey(),
-					new Keyword("my").getKey(),
-					new Keyword("anybodies").getKey(),
-					new Keyword("maybe").getKey(),
-					new Keyword("or not.").getKey(),
-					new Keyword("throws shade").getKey(),
-					new Keyword("string").getKey(),
-					new Keyword("number").getKey(),
-					new Keyword("jack all").getKey(),
-					new Keyword("bool").getKey(),
-					new Keyword("hear me out..").getKey(),
-					new Keyword("thats deep.").getKey()
-					
-					//new Keyword("").getKey(),
-				
+					Keyword.ARRAY.getKey(),
+					Keyword.IF.getKey(),
+					Keyword.ELSEIF.getKey(),
+					Keyword.ELSE.getKey(),
+					Keyword.DOWHILE.getKey(),
+					Keyword.WHILE.getKey(),
+					Keyword.PRINT.getKey(),
+					Keyword.NOT.getKey(),
+					Keyword.RANDOM.getKey(),
+					Keyword.PRIVATE.getKey(),
+					Keyword.PRIVATE.getKey(),
+					Keyword.PUBLIC.getKey(),
+					Keyword.TRY.getKey(),
+					Keyword.CATCH.getKey(),
+					Keyword.THROWEXCEPTION.getKey(),
+					Keyword.STRINGY.getKey(),
+					Keyword.NUMBER.getKey(),
+					Keyword.BOOL.getKey(),
+					Keyword.NULL.getKey(),
+					Keyword.STARTPROGRAM.getKey(),
+					Keyword.ENDPROGRAM.getKey()
+									
 					);
 						
 			return result;

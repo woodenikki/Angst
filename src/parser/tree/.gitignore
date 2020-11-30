@@ -7,3 +7,11 @@
 /Program.class
 /UnaryOp.class
 /Var.class
+/BinOp.class
+/Bool.class
+/Post.class
+/ArithOp.class
+/String.class
+/Stringy.class
+/NodeType.class
+/Datatype.class

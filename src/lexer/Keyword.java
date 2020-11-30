@@ -1,94 +1,97 @@
 package lexer;
-public class Keyword {
+
+import java.util.List;
+
+public enum Keyword {
+	ARRAY("buncha"),
+	IF("as if"),
+	ELSEIF("unless.."),
+	ELSE("but whatever"),
+	DOWHILE("do i hafta"),
+	WHILE("yech, still"),
+	PRINT("mumble"),
+	NOT("NOT!"),
+	RANDOM("anxious"),
+	PRIVATE("my"),
+	PUBLIC("anybodies"),
+	TRY("maybe"),
+	CATCH("or not."),
+	THROWEXCEPTION("throw shade"),
+	STRINGY("stringy"),
+	NUMBER("number"),
+	BOOL("bool"),
+	NULL("nada"),
+	STARTPROGRAM("hear me out.."),
+	ENDPROGRAM("thats deep.")
 	
-	public String descript;
-	public String key;
+	;
+	public final String descript;
+	public final String key;
 
 	
-	public Keyword(String k) {
-		key = k;
-		setDescript(k);
-	}
-	
-	public void setDescript(String k) {
-		switch(k){
-			case "is":
-				descript= "";
-				break;
-			case "buncha":
-				descript = "Array";
-				break;
-			case "as if":
-				descript = "If";
-				break;
-			case "unless..":
-				descript = "Else if";
-				break;
-			case "but whatever":
-				descript = "Else statement";
-				break;
-			case "do i hafta":
-				descript = "Do-while loop";
-				break;
-			case "yech, still":
-				descript = "while loop";
-				break;
-			case "mumble":
-				descript = "print statement";
-				break;
-			case "NO!":
-				descript = "'not' operator (!)";
-				break;
-			case "anxious":
-				descript = "Random number";
-				break;
-			case "my":
-				descript = "'private'";
-				break;
-			case "anybodies":
-				descript = "'public'";
-				break;
-			case "maybe":
-				descript = "try";
-				break;
-			case "or not.":
-				descript = "catch";
-				break;
-			case "throws shade":
-				descript = "Throws exception";
-				break;
-			case "string":
-				descript = "String";
-				break;
-			case "number":
-				descript = "pos/neg integer";
-				break;
-			case "should be":
-				descript = "assignment (=)";
-				break;
-			case "jack all":
-				descript = "NULL or 'nothing'";
-				break;
-			case "bool":
-				descript = "boolean";
-				break;
-			case "thats deep.":
-				descript = "end function";
-				break;
-			case "hear me out..":
-				descript = "start function";
-			default:
-					break;
-		}
+	private Keyword(String key) {
+		this.key = key;
+		descript = setDescript(key);
 		
 	}
 	
-	public String getDescript(){
+	public String getDescription() {
 		return descript;
 	}
-
+	
 	public String getKey() {
 		return key;
 	}
 
+	
+	public String setDescript(String k) {
+		switch(k){
+			case "is":
+				return "";
+				case "buncha":
+				return "Array";
+			case "as if":
+				return "If";
+			case "unless..":
+				return "Else if";
+			case "but whatever":
+				return "Else statement";
+			case "do i hafta":
+				return "Do-while loop";
+			case "yech, still":
+				return "while loop";
+			case "mumble":
+				return "print statement";
+			case "NOT!":
+				return "'not' operator (!)";
+			case "anxious":
+				return "Random number";
+			case "my":
+				return "'private'";
+			case "anybodies":
+				return "'public'";
+			case "maybe":
+				return "try";
+			case "or not.":
+				return "catch";
+			case "throw shade":
+				return "Throws exception";
+			case "stringy":
+				return "String";
+			case "number":
+				return "pos/neg integer";
+			case "should be":
+				return "assignment (=)";
+			case "null":
+				return "NULL or 'nothing'";
+			case "bool":
+				return "boolean";
+			case "thats deep.":
+				return "end program";
+			case "hear me out..":
+				return "start program";
+			default:
+					return "";
+		}
+	}
 }

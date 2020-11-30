@@ -1,5 +1,12 @@
 package interpreter;
 
+import java.util.HashMap;
+
+import lexer.*;
+import parser.*;
+import parser.tree.*;
+
+
 public class Interpreter extends NodeVisitor {
     private Parser parser;
     public HashMap<String, Object> variables;
@@ -13,35 +20,37 @@ public class Interpreter extends NodeVisitor {
         Integer left = (Integer) this.visit(node.getRight());
         Integer right = (Integer) this.visit(node.getLeft());
 
-        if(node.getData() == OpType.PLUS.getPattern()) {
+        if(node.getOp().getData().equals(OpType.PLUS.getPattern())) {
             return left + right;
         }
-        else if(node.getData() == OpType.SUB.getPattern()) {
+        else if(node.getOp().getData().equals(OpType.MINUS.getPattern())) {
             return left - right;
         }
-        else if(node.getData() == OpType.MULT.getPattern()) {
+        else if(node.getOp().getData().equals(OpType.MINUS.getPattern())) {
             return left * right;
         }
-        else if(node.getData() == OpType.DIV.getPattern()) {
+        else if(node.getOp().getData().equals(OpType.DIV.getPattern())) {
             return left / right;
         }
-        else if(node.getData() == OpType.MOD.getPattern()) {
+        else if(node.getOp().getData().equals(OpType.MOD.getPattern())) {
             return left % right;
         }
         return null;
     }
 
     public Object visit_UnaryOp(UnaryOp node){
-        if (node.getData() == OpType.INCR.getPattern()){
-            return (Integer) this.visit(node.getFactor() + 1);
+        if (node.getOp().getData().equals(OpType.INCR.getPattern())){
+            return (Integer) this.visit(node.getFactor()) + 1;
         }
-        else if(node.getData() == OpType.DECR.getPattern()){
-            return (Integer) this.visit(node.getFactor() - 1);
+        else if(node.getOp().getData().equals(OpType.DECR.getPattern())){
+            return (Integer) this.visit(node.getFactor()) - 1;
         }
-/*        else if(node.getData() == OpType.NEG.getPattern()){        //negative?
+        else if(node.getOp().getData() == OpType.MINUS.getPattern()){        //negative?
             return -(Integer) this.visit(node.getFactor());
         }
-*/
+        
+
+        return null;
     }
 
     public Object visit_Compound(Compound node) {
@@ -59,7 +68,7 @@ public class Interpreter extends NodeVisitor {
         String varName = node.getName();
         Object value = variables.get(varName);
         if(value == null){
-            throw new InvalidIdentifierException(varName);
+            throw new InvalidIDException(varName);
         }
         return value;
     }
@@ -80,6 +89,7 @@ public class Interpreter extends NodeVisitor {
 
     public Object interpret() {
         Node tree = parser.parse();
+        if(tree==null) { System.out.println("bad lemons"); }
         return this.visit(tree);
     }
 }
