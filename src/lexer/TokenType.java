@@ -7,6 +7,8 @@ public enum TokenType {
 		RPAREN		("(\\))"),
 		LSQUARE		("(\\[)"),
 		RSQUARE		("(\\])"),
+		LCURLY		("(\\{)"),
+		RCURLY		("(\\})"),
 		OP			(getOps()),						//"(\\+ | \\- | \\/ | \\*)"
 		KEYWORD		(getKeywords()),
 		BOOL		(getBools()),
@@ -46,7 +48,7 @@ public enum TokenType {
 			//"(slaps|rad|sick)|(eh|meh|bleh)"
 			String result = String.join("|", 
 					"cool",		//true
-					"rad",		//true
+					"fire",		//true
 					"sick",		//true
 					"eh",		//false
 					"meh",		//false
@@ -102,7 +104,7 @@ public enum TokenType {
 					Keyword.ELSEIF.getKey(),
 					Keyword.ELSE.getKey(),
 					Keyword.DOWHILE.getKey(),
-					Keyword.WHILE.getKey(),
+					Keyword.ENDLOOP.getKey(),
 					Keyword.PRINT.getKey(),
 					Keyword.NOT.getKey(),
 					Keyword.RANDOM.getKey(),

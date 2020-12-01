@@ -9,7 +9,7 @@ public class Bool extends Node{
 	public Bool(Token token) {
 		this.type = Datatype.BOOL;
 		if(	token.getData().equals("cool") || 
-				token.getData().equals("rad") || 
+				token.getData().equals("fire") || 
 				token.getData().equals("sick")) {
 			value = true;
 		} else if(token.getData().equals("eh") ||

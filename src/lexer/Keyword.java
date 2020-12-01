@@ -8,7 +8,7 @@ public enum Keyword {
 	ELSEIF("unless.."),
 	ELSE("but whatever"),
 	DOWHILE("do i hafta"),
-	WHILE("yech, still"),
+	ENDLOOP("yech"),
 	PRINT("mumble"),
 	NOT("NOT!"),
 	RANDOM("anxious"),

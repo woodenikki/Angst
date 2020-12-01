@@ -7,7 +7,7 @@ import interpreter.*;
 public class Main {
 	
 	public static final String sourceCode = "sourceCode.txt";
-	public final static Keyword[] allKeys = {Keyword.ARRAY, Keyword.IF, Keyword.ELSEIF, Keyword.ELSE, Keyword.DOWHILE, Keyword.WHILE, 
+	public final static Keyword[] allKeys = {Keyword.ARRAY, Keyword.IF, Keyword.ELSEIF, Keyword.ELSE, Keyword.DOWHILE, Keyword.ENDLOOP, 
 			Keyword.PRINT, Keyword.NOT, Keyword.RANDOM, Keyword.PRIVATE, Keyword.PUBLIC, Keyword.TRY, Keyword.CATCH, 
 			Keyword.THROWEXCEPTION, Keyword.STRINGY, Keyword.NUMBER, Keyword.BOOL, Keyword.NULL, Keyword.STARTPROGRAM, Keyword.ENDPROGRAM};
 	

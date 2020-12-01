@@ -85,7 +85,7 @@ public class Lexer {
 			// probably ignore
 
 			if (match.group(TokenType.COMMENT.name()) != null) {
-				tokens.add(new Token(TokenType.COMMENT, match.group(TokenType.COMMENT.name())));
+				//tokens.add(new Token(TokenType.COMMENT, match.group(TokenType.COMMENT.name())));
 				continue;
 			}
 			if (match.group(TokenType.LPAREN.name()) != null) {
@@ -102,6 +102,14 @@ public class Lexer {
 			}
 			if (match.group(TokenType.RSQUARE.name()) != null) {
 				tokens.add(new Token(TokenType.RSQUARE, match.group(TokenType.RSQUARE.name())));
+				continue;
+			}
+			if (match.group(TokenType.LCURLY.name()) != null) {
+				tokens.add(new Token(TokenType.LCURLY, match.group(TokenType.LCURLY.name())));
+				continue;
+			}
+			if (match.group(TokenType.RCURLY.name()) != null) {
+				tokens.add(new Token(TokenType.RCURLY, match.group(TokenType.RCURLY.name())));
 				continue;
 			}
 			if (match.group(TokenType.OP.name()) != null) {
@@ -137,7 +145,7 @@ public class Lexer {
 				continue;
 			}
 			if (match.group(TokenType.ERROR.name()) != null) {
-				tokens.add(new Token(TokenType.ERROR, match.group(TokenType.ERROR.name())));
+				//tokens.add(new Token(TokenType.ERROR, match.group(TokenType.ERROR.name())));
 				continue;
 			}
 			if (match.group(TokenType.WSPACE.name()) != null) {

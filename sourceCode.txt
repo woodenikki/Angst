@@ -1,10 +1,15 @@
  hear me out..
- my stringy y should be "hello";
- anybodies number num should be 7 i guess
- a = anxious(5);
- mumble ("hey") or whatever
- c++;
- c = c - 2;
- d = a % c;
- a--;
-thats deep.
+ my bool x should be fire;
+ 
+ as if(fire){
+ x is 4;
+ }
+ unless..(sick){
+ b++;
+ }
+ but whatever{
+ x could be meh;
+ }
+ yech
+ 
+ thats deep.
