@@ -15,6 +15,7 @@ import parser.tree.*;
 /***********UNIMPLEMENTED IDEAS***********/
 //-Arrays
 //-Return statement -> "give"
+// try/catch
 public class Parser {
 	
 	private Lexer lexer;
@@ -98,19 +99,19 @@ public class Parser {
 	public Var variable() {
 
 		Var node = new Var(currentToken);
-		this.eat(TokenType.ID);
 		
+		this.eat(TokenType.ID);
 		return node;
 	}
 	
-	public Node post() {
+	public Node post() { //TODO: move to term
 
 		Node result = term();
 
 		while(currentToken.getData().equals(OpType.INCR.getOperation()) || currentToken.getData().equals(OpType.DECR.getOperation())) {
 			Token op = currentToken;
 																				//Precedence:
-			if(op.getData().equals(OpType.INCR.getOperation()) || 		//x++
+			if(op.getData().equals(OpType.INCR.getOperation()) || 			//x++
 					op.getData().equals(OpType.DECR.getOperation())){		//x--
 				this.eat(TokenType.OP);
 			}
@@ -123,7 +124,7 @@ public class Parser {
 	
 	public Node multDivMod() {
 
-		Node result = post();
+		Node result = term();
 		
 		while(currentToken.getType() == TokenType.OP && (currentToken.getData().equals(OpType.MULT.getOperation()) || // MULT, DIV, OR MOD
 				currentToken.getData().equals(OpType.DIV.getOperation()) ||currentToken.getData().equals(OpType.MOD.getOperation()))) {
@@ -178,7 +179,7 @@ public class Parser {
 	public Node printStmt() {	//mumble("hello")
 		this.eat(TokenType.KEYWORD);
 		this.eat(TokenType.LPAREN);
-
+		//System.out.println(currentToken.getType());
 		if(currentToken.getType().equals(TokenType.STRINGY)) {
 			this.eat(TokenType.STRINGY);
 		}
@@ -187,6 +188,9 @@ public class Parser {
 		}
 		else if(currentToken.getType().equals(TokenType.BOOL)) {
 			this.eat(TokenType.BOOL);
+		}
+		else if(currentToken.getType().equals(TokenType.ID)) {
+			this.eat(TokenType.ID);
 		}
 		
 		this.eat(TokenType.RPAREN);
@@ -251,6 +255,7 @@ public class Parser {
 			System.err.println("Expecting scope: my or anybodies");
 			System.exit(-1);
 		}
+		
 		if(currentToken.getType().equals(TokenType.KEYWORD)) {
 			if(currentToken.getData().equals(Keyword.NUMBER.getKey())){
 				datatype = Datatype.NUMBER;
@@ -268,7 +273,6 @@ public class Parser {
 				System.exit(-1);
 			}
 		}
-
 		Var var = this.variable();	//x
 		Token token = currentToken;	//=
 		this.eat(TokenType.ASSIGN); 
@@ -364,8 +368,32 @@ public class Parser {
 		return stmt;
 	}
 	
-	public Node dowhileStmt(){
-		return null;
+	public Node whileStmt(){
+		this.eat(TokenType.KEYWORD); 			//do
+		this.eat(TokenType.LCURLY);
+		Node stmt = null;
+		while(currentToken.getType() != TokenType.RCURLY) {						
+			stmt = this.statement(); 					
+			if(currentToken.getData().equals(Keyword.ENDLOOP.getKey())){
+				this.eat(TokenType.KEYWORD);
+			}else { this.eat(TokenType.ENDSTMT); }
+		}
+		this.eat(TokenType.RCURLY);
+		if(stmt == null) {
+			System.err.println("Bad 'do' statement");
+			System.exit(-1);
+		}
+		
+		if(!currentToken.getData().equals(Keyword.WHILE.getKey())) {
+			System.err.println("Bad 'while' statement");
+			System.exit(-1);
+		}
+		this.eat(TokenType.KEYWORD);
+		this.eat(TokenType.LPAREN);
+		Node cond = booleanExpression();
+		this.eat(TokenType.RPAREN);
+		
+		return new WhileStatement(stmt, cond);
 	}
 	
 	public void printCurrentStatement() {
@@ -400,16 +428,11 @@ public class Parser {
 				
 				System.out.print("If statement: \t");
 			}
-			else if(currentToken.getData().equals(Keyword.DOWHILE.getKey())) {
-				stmt = this.dowhileStmt();
+			else if(currentToken.getData().equals(Keyword.DO.getKey())) {
+				stmt = this.whileStmt();
 				System.out.print("While Loop: \t");
 			}
 			
-			/*
-			else if(currentToken.getData().equals(Keyword.WHILE)) {
-				stmt = this.whileStmt();
-			}
-			 */
 		}
 
 		else if(currentToken.getType() == TokenType.ID) {
@@ -451,7 +474,7 @@ public class Parser {
 	
 	public Node program() {
 		if(!currentToken.getData().equals(Keyword.STARTPROGRAM.getKey())) {
-			System.err.println("Sorry, I wasn't listening. Expecting 'hear me out..'"); //TODO: add line number to errors?
+			System.err.println("Sorry, I wasn't listening. "); //TODO: add line number to errors?
 			System.exit(-1);
 		}
 		this.eat(TokenType.KEYWORD);

@@ -21,7 +21,6 @@ public enum OpType {
 	AND		("&&"),
 	OR		("\\|\\|"),
 	NOT		("NOT!")
-	
 	;
 	
 
