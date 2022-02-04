@@ -52,7 +52,7 @@ my number z should be 18;
 # Example Code
 
 ## White space
-White space does not matter. You can indent if you feel like it. Nothing matters anyway.
+White space does not matter. Indent if you feel like it. Nothing matters anyway.
 
 ## Comments
 - Comments are defined using ```ugh```
