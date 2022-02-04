@@ -78,12 +78,13 @@ To end the file, add
 - **Arrays** are indicated using ```buncha```
 ---
 - **Equal (=)**  :  ```should be```
-- **Not (!)**  :  :  ```NOT!```
+- **Not (!)**  :  ```NOT!```
 > *Note, NOT! contains the only capital letters that show up in Angst. Ever.*
 ```
-my number x should be 7;
-anybodies stringy y should be "hello";
-my bool z should be cool;
+my number w should be 7;
+anybodies stringy x should be "hello";
+my bool y should be cool;
+my bool z should be NOT!cool
 my buncha numbers should be [1, 3, 5, 7]
 ```
 
