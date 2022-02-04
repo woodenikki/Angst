@@ -21,7 +21,7 @@ However, it is still object oriented and should be capable of being functional.
 
 Since the parser and lexer were written in Java, I was already in an object-oriented mindset. Everything is structured as if it were Java, just using our angsty grammar.
 
-It was important when designing Angst to have high read and writability. The code should read like a script. Almost like a teenager pGresenting the code he didn't want to write in front of the class he doesn't care for. 
+It was important when designing Angst to have high read and writability. The code should read like a spoken script. Almost like a teenager presenting the code he didn't want to write in front of the class he doesn't care for. 
 
 I also wanted to focus on multiplicy, meaning there were a few different options for words, so that reading it doesn't get too repetative (while only having a maxinum of 3 possibilites to keep readability in mind.)
 
