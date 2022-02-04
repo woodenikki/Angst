@@ -80,7 +80,7 @@ public enum Keyword {
 			case "stringy":
 				return "String";
 			case "number":
-				return "pos/neg integer";
+				return "pos/neg 'integer'";
 			case "should be":
 				return "assignment (=)";
 			case "null":
@@ -91,6 +91,7 @@ public enum Keyword {
 				return "end program";
 			case "hear me out..":
 				return "start program";
+				//TODO:
 			default:
 					return "";
 		}
